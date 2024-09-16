@@ -1,0 +1,24 @@
+import { FastifyCorsOptions } from "@fastify/cors";
+import { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyReply } from "fastify";
+import { request } from "http";
+import { CreateCustomerController } from "./controllers/CreateCostumerController";
+import { ListCustomersController } from "./controllers/ListCustomerController";
+import { DeleteCustomerController } from "./controllers/DeleteCustomerController";
+
+export async function routes(fastify: FastifyInstance, options: FastifyCorsOptions) {
+    fastify.get("/test", async (request: FastifyRequest, reply: FastifyReply) => {
+        return { ok: true }
+    })
+
+    fastify.post("/customer", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new CreateCustomerController().handle(request, reply);
+    })
+
+    fastify.get("/customers", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new ListCustomersController().handle(request, reply); 
+    })
+
+    fastify.delete("/customer", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new DeleteCustomerController().handle(request, reply); 
+    })
+}
